@@ -1,32 +1,49 @@
-export GaussianModel, ESS
+# elliptical slice sampling algorithm
 
-# wrapper for prior and likelihood
-struct GaussianModel{T,S,L}
-    "Sampler of multivariate Gaussian prior."
-    sampler::S
+# internal model structure consisting of prior and log-likelihood function
+struct Model{P,L}
+    "Gaussian prior."
+    prior::P
     "Log likelihood function."
-    ℓ::L
+    loglikelihood::L
+
+    function Model{P,L}(prior::P, loglikelihood::L) where {P,L}
+        isnormal(prior) ||
+            error("prior distribution has to be a normal distribution")
+
+        new{P,L}(prior, loglikelihood)
+    end
 end
 
-GaussianModel(sampler, ℓ) =
-    GaussianModel{eltype(sampler),typeof(sampler),typeof(ℓ)}(sampler, ℓ)
+Model(prior, loglikelihood) =
+    Model{typeof(prior),typeof(loglikelihood)}(prior, loglikelihood)
 
-Base.eltype(::GaussianModel{T}) where T = T
-Base.length(::GaussianModel) = length(GaussianModel.sampler)
+# use custom randtype since behaviour of `eltype` is inconsistent in Distributions
+Base.eltype(::Type{<:Model{P}}) where P = randtype(P)
 
-Random.rand!(model::GaussianModel, x) = rand!(Random.GLOBAL_RNG, model, x)
-Random.rand!(rng::AbstractRNG, model::GaussianModel, x) = rand!(rng, model.sampler, x)
-
-Random.rand(model::GaussianModel) = rand(Random.GLOBAL_RNG, model)
-Random.rand(rng::AbstractRNG, model::GaussianModel) = rand(rng, model.sampler)
-
-# elliptical slice sampling algorithm
-struct ESS{R,G<:GaussianModel}
+# elliptical slice sampler
+struct EllipticalSliceSampler{M<:Model,R<:AbstractRNG,C}
     "Random number generator."
     rng::R
-    "Gaussian model."
-    model::G
+    "Model."
+    model::M
+    "Cache."
+    cache::C
 end
 
-ESS(rng::AbstractRNG, sampler, ℓ) = ESS(rng, GaussianModel(sampler, ℓ))
-ESS(sampler, ℓ) = ESS(Random.GLOBAL_RNG, sampler, ℓ)
+EllipticalSliceSampler(model::Model) = EllipticalSliceSampler(Random.GLOBAL_RNG, model)
+EllipticalSliceSampler(rng::AbstractRNG, model::Model) =
+    EllipticalSliceSampler(rng, model, cache(model.prior))
+
+Base.eltype(::Type{<:EllipticalSliceSampler{M}}) where M = eltype(M)
+
+# set seed of the sampler
+Random.seed!(ess::EllipticalSliceSampler) = Random.seed!(ess.rng)
+
+# state of the elliptical slice sampler
+struct EllipticalSliceSamplerState{F,L}
+    "Sample of the elliptical slice sampler."
+    f::F
+    "Log-likelihood of the sample."
+    ℓ::L
+end

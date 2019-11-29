@@ -1,3 +1,4 @@
 using SafeTestsets
 
-@safetestset "Regression tests" begin include("regression.jl") end
+@safetestset "Simple tests" begin include("simple.jl") end
+@safetestset "GP regression tests" begin include("regression.jl") end
