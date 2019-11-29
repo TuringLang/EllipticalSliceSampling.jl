@@ -24,12 +24,61 @@ priors with non-zero means and handle the change of variables internally.
 
 Probably most users would like to use the exported function
 ```julia
-ESS_mcmc([rng::AbstracRNG,] prior, loglikelihood, N::Int[; burnin::Int = 0])
+ESS_mcmc([rng::AbstracRNG, ]prior, loglikelihood, N::Int[; burnin::Int = 0])
 ```
-which returns a Markov chain of `N` samples for approximating the posterior of
-a model with a multivariate Gaussian prior that allows sampling from the `prior`
-and evaluation of the log likelihood `loglikelihood`. The burn-in phase with
+which returns a vector of `N` samples for approximating the posterior of
+a model with a Gaussian prior that allows sampling from the `prior` and
+evaluation of the log likelihood `loglikelihood`. The burn-in phase with
 `burnin` samples is discarded.
+
+If you want to have more control about the sampling procedure (e.g., if you
+only want to save a subset of samples or want to use another stopping
+criterion), the function
+```julia
+ESS_mcmc_sampler([rng::AbstractRNG, ]prior, loglikelihood)
+```
+gives you access to an iterator from which you can generate an unlimited
+number of samples.
+
+### Prior
+
+You may specify Gaussian priors with arbitrary means. EllipticalSliceSampling.jl
+provides first-class support for the scalar and multivariate normal distributions
+in [Distributions.jl](https://github.com/JuliaStats/Distributions.jl). For
+instance, if the prior distribution is a standard normal distribution, you can
+choose
+```julia
+prior = Normal()
+```
+
+However, custom Gaussian priors are supported as well. For instance, if you want to
+use a custom distribution type `GaussianPrior`, the following methods should be
+implemented:
+```julia
+# state that the distribution is actually Gaussian
+EllipticalSliceSampling.isnormal(::GaussianPrior) = true
+
+# define how to sample from the distribution
+# only one of the following methods is needed:
+# - if the samples are immutable (e.g., numbers or static arrays) only
+#   `rand(rng, dist)` should be implemented
+# - otherwise only `rand!(rng, dist, sample)` is required
+Base.rand(rng::AbstractRNG, dist::GaussianPrior) = ...
+Base.rand!(rng::AbstractRNG, dist::GaussianPrior, sample) = ...
+
+# specify the type of a sample from the distribution
+Base.eltype(::Type{<:GaussianPrior}) = ...
+```
+
+### Log likelihood
+
+In addition to the prior, you have to specify a Julia implementation of
+the log likelihood function. Here the predefined log densities and log
+likelihood functions in
+[Distributions.jl](https://github.com/JuliaStats/Distributions.jl) might
+be useful.
+
+### Progress monitor
 
 If you use a package such as [Juno](https://junolab.org/) or
 [ConsoleProgressMonitor.jl](https://github.com/tkf/ConsoleProgressMonitor.jl) that supports
