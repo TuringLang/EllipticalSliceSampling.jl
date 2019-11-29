@@ -56,7 +56,10 @@ use a custom distribution type `GaussianPrior`, the following methods should be
 implemented:
 ```julia
 # state that the distribution is actually Gaussian
-EllipticalSliceSampling.isnormal(::GaussianPrior) = true
+EllipticalSliceSampling.isnormal(::Type{<:GaussianPrior}) = true
+
+# define the mean of the distribution
+Statistics.mean(dist::GaussianPrior) = ...
 
 # define how to sample from the distribution
 # only one of the following methods is needed:
@@ -68,6 +71,9 @@ Base.rand!(rng::AbstractRNG, dist::GaussianPrior, sample) = ...
 
 # specify the type of a sample from the distribution
 Base.eltype(::Type{<:GaussianPrior}) = ...
+
+# in the case of mutable samples, specify the array size of the samples
+Base.size(dist::GaussianPrior) = ...
 ```
 
 ### Log likelihood

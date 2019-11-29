@@ -8,7 +8,7 @@ struct Model{P,L}
     loglikelihood::L
 
     function Model{P,L}(prior::P, loglikelihood::L) where {P,L}
-        isnormal(prior) ||
+        isnormal(P) ||
             error("prior distribution has to be a normal distribution")
 
         new{P,L}(prior, loglikelihood)

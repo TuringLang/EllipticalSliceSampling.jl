@@ -21,5 +21,5 @@ end
 Test whether a distribution is normal.
 """
 isnormal(dist) = false
-isnormal(::Normal) = true
-isnormal(::AbstractMvNormal) = true
+isnormal(::Type{<:Normal}) = true
+isnormal(::Type{<:AbstractMvNormal}) = true
