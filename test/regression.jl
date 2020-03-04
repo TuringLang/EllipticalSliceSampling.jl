@@ -40,9 +40,8 @@ const σ = 0.3
             logpdf(MvNormal(f, σ), observations)
         end
 
-        # run elliptical slice sampling for 100 000 time steps
-        # drop burn-in phase of 10 000 samples
-        samples = ESS_mcmc(prior, ℓ, 100_000; burnin = 10_000)
+        # run elliptical slice sampler for 100 000 time steps
+        samples = ESS_mcmc(prior, ℓ, 100_000)
 
         # compute analytical posterior of GP
         posterior_Σ = prior_Σ * (I - (prior_Σ + σ^2 * I) \ prior_Σ)
@@ -67,8 +66,7 @@ end
     end
 
     # run elliptical slice sampling for 100 000 time steps
-    # drop burn-in phase of 10 000 samples
-    samples = ESS_mcmc(prior, ℓ, 100_000; burnin = 10_000)
+    samples = ESS_mcmc(prior, ℓ, 100_000)
 
     # compute analytical posterior
     posterior_μ = observations / (1 + σ^2)
