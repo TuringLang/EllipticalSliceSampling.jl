@@ -24,18 +24,22 @@ priors with non-zero means and handle the change of variables internally.
 
 Probably most users would like to use the exported function
 ```julia
-ESS_mcmc([rng::AbstracRNG, ]prior, loglikelihood, N::Int[; burnin::Int = 0])
+ESS_mcmc([rng, ]prior, loglikelihood, N[; kwargs...])
 ```
 which returns a vector of `N` samples for approximating the posterior of
 a model with a Gaussian prior that allows sampling from the `prior` and
-evaluation of the log likelihood `loglikelihood`. The burn-in phase with
-`burnin` samples is discarded.
+evaluation of the log likelihood `loglikelihood`.
 
 If you want to have more control about the sampling procedure (e.g., if you
 only want to save a subset of samples or want to use another stopping
 criterion), the function
 ```julia
-ESS_mcmc_sampler([rng::AbstractRNG, ]prior, loglikelihood)
+AbstractMCMC.steps!(
+    [rng,]
+    EllipticalSliceSampling.Model(prior, loglikelihood),
+    EllipticalSliceSampling.EllipticalSliceSampler();
+    kwargs...
+)
 ```
 gives you access to an iterator from which you can generate an unlimited
 number of samples.
@@ -56,9 +60,11 @@ use a custom distribution type `GaussianPrior`, the following methods should be
 implemented:
 ```julia
 # state that the distribution is actually Gaussian
-EllipticalSliceSampling.isnormal(::Type{<:GaussianPrior}) = true
+EllipticalSliceSampling.isgaussian(::Type{<:GaussianPrior}) = true
 
 # define the mean of the distribution
+# alternatively implement `proposal(prior, ...)` and
+# `proposal!(out, prior, ...)` (only if the samples are mutable)
 Statistics.mean(dist::GaussianPrior) = ...
 
 # define how to sample from the distribution
@@ -87,7 +93,7 @@ be useful.
 ### Progress monitor
 
 If you use a package such as [Juno](https://junolab.org/) or
-[ConsoleProgressMonitor.jl](https://github.com/tkf/ConsoleProgressMonitor.jl) that supports
+[TerminalLoggers.jl](https://github.com/c42f/TerminalLoggers.jl) that supports
 progress logs created by the
 [ProgressLogging.jl](https://github.com/JunoLab/ProgressLogging.jl) API, then you can
 monitor the progress of the sampling algorithm.

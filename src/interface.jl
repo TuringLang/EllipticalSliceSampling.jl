@@ -1,33 +1,72 @@
-# perform elliptical slice sampling for a fixed number of iterations
-ESS_mcmc(prior, loglikelihood, N::Int; kwargs...) =
-    ESS_mcmc(Random.GLOBAL_RNG, prior, loglikelihood, N; kwargs...)
+# public interface
 
-function ESS_mcmc(rng::AbstractRNG, prior, loglikelihood, N::Int; burnin::Int = 0)
-    # define the internal model
+"""
+    ESS_mcmc([rng, ]prior, loglikelihood, N; kwargs...)
+
+Create a Markov chain of `N` samples for a model with given `prior` and `loglikelihood`
+functions using the elliptical slice sampling algorithm.
+"""
+function ESS_mcmc(
+    rng::Random.AbstractRNG,
+    prior,
+    loglikelihood,
+    N::Integer;
+    kwargs...
+)
     model = Model(prior, loglikelihood)
-
-    # create the sampler
-    sampler = EllipticalSliceSampler(rng, model)
-
-    # create MCMC chain
-    chain = Vector{eltype(sampler)}(undef, N)
-    niters = N + burnin
-    @withprogress name = "Performing elliptical slice sampling" begin
-        # discard burnin phase
-        for (i, _) in zip(1:burnin, sampler)
-            @logprogress i / niters
-        end
-
-        for (i, f) in zip(1:N, sampler)
-            @inbounds chain[i] = f
-            @logprogress (i + burnin) / niters
-        end
-    end
-
-    chain
+    return AbstractMCMC.sample(rng, model, EllipticalSliceSampler(), N; kwargs...)
 end
 
-# create an elliptical slice sampler
-ESS_mcmc_sampler(prior, loglikelihood) = ESS_mcmc_sampler(Random.GLOBAL_RNG, prior, loglikelihood)
-ESS_mcmc_sampler(rng::AbstractRNG, prior, loglikelihood) =
-    EllipticalSliceSampler(rng, Model(prior, loglikelihood))
+function ESS_mcmc(prior, loglikelihood, N::Integer; kwargs...)
+    return ESS_mcmc(Random.GLOBAL_RNG, prior, loglikelihood, N; kwargs...)
+end
+
+# private interface
+
+"""
+    initial_sample(rng, model)
+
+Return the initial sample for the `model` using the random number generator `rng`.
+
+By default, sample from the prior by calling [`sample_prior(rng, model)`](@ref).
+"""
+function initial_sample(rng::Random.AbstractRNG, model::AbstractMCMC.AbstractModel)
+    return sample_prior(rng, model)
+end
+
+"""
+    sample_prior(rng, model)
+
+Sample from the prior of the `model` using the random number generator `rng`.
+"""
+function sample_prior(::Random.AbstractRNG, ::AbstractMCMC.AbstractModel) end
+
+"""
+    proposal(model, f, ν, θ)
+
+Compute the proposal for the next sample in the elliptical slice sampling algorithm for the
+`model` from the previous sample `f`, the sample `ν` from the Gaussian prior, and the angle
+`θ`.
+
+Mathematically, the proposal can be computed as
+```math
+\\cos θ f + ν \\sin θ ν + μ (1 - \\sin θ + \\cos θ),
+```
+where ``μ`` is the mean of the Gaussian prior.
+"""
+function proposal(model::AbstractMCMC.AbstractModel, f, ν, θ) end
+
+"""
+    proposal!(out, model, f, ν, θ)
+
+Compute the proposal for the next sample in the elliptical slice sampling algorithm for the
+`model` from the previous sample `f`, the sample `ν` from the Gaussian prior, and the angle
+`θ`, and save it to `out`.
+
+Mathematically, the proposal can be computed as
+```math
+\\cos θ f + ν \\sin θ ν + μ (1 - \\sin θ + \\cos θ),
+```
+where ``μ`` is the mean of the Gaussian prior.
+"""
+function proposal!(out, model::AbstractMCMC.AbstractModel, f, ν, θ) end

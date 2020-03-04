@@ -1,17 +1,17 @@
 module EllipticalSliceSampling
 
-using ArrayInterface
-using Distributions
-using Parameters
-using ProgressLogging
+import AbstractMCMC
+import ArrayInterface
+import Distributions
 
-using Random
+import Random
+import Statistics
 
-export ESS_mcmc, ESS_mcmc_sampler
+export ESS_mcmc
 
-include("utils.jl")
-include("types.jl")
-include("iterator.jl")
+include("abstractmcmc.jl")
+include("model.jl")
+include("distributions.jl")
 include("interface.jl")
 
 end # module
