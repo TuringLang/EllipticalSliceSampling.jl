@@ -96,7 +96,10 @@ If you use a package such as [Juno](https://junolab.org/) or
 [TerminalLoggers.jl](https://github.com/c42f/TerminalLoggers.jl) that supports
 progress logs created by the
 [ProgressLogging.jl](https://github.com/JunoLab/ProgressLogging.jl) API, then you can
-monitor the progress of the sampling algorithm.
+monitor the progress of the sampling algorithm. If you do not specify a progress
+logging frontend explicitly,
+[AbstractMCMC.jl](https://github.com/TuringLang/AbstractMCMC.jl) picks a frontend
+for you automatically.
 
 ## Bibliography
 
