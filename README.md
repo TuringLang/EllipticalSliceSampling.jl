@@ -4,7 +4,7 @@ Julia implementation of elliptical slice sampling.
 
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![Build Status](https://travis-ci.com/TuringLang/EllipticalSliceSampling.jl.svg?branch=master)](https://travis-ci.com/TuringLang/EllipticalSliceSampling.jl)
-[![Build Status](https://ci.appveyor.com/api/projects/status/github/devmotion/EllipticalSliceSampling.jl?svg=true)](https://ci.appveyor.com/project/devmotion/EllipticalSliceSampling-jl)
+[![Build Status](https://github.com/TuringLang/EllipticalSliceSampling.jl/workflows/CI/badge.svg)](https://github.com/TuringLang/EllipticalSliceSampling.jl/actions)
 [![Codecov](https://codecov.io/gh/TuringLang/EllipticalSliceSampling.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/TuringLang/EllipticalSliceSampling.jl)
 [![Coveralls](https://coveralls.io/repos/github/TuringLang/EllipticalSliceSampling.jl/badge.svg?branch=master)](https://coveralls.io/github/TuringLang/EllipticalSliceSampling.jl?branch=master)
 
