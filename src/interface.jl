@@ -1,26 +1,3 @@
-# public interface
-
-"""
-    ESS_mcmc([rng, ]prior, loglikelihood, N; kwargs...)
-
-Create a Markov chain of `N` samples for a model with given `prior` and `loglikelihood`
-functions using the elliptical slice sampling algorithm.
-"""
-function ESS_mcmc(
-    rng::Random.AbstractRNG,
-    prior,
-    loglikelihood,
-    N::Integer;
-    kwargs...
-)
-    model = Model(prior, loglikelihood)
-    return AbstractMCMC.sample(rng, model, EllipticalSliceSampler(), N; kwargs...)
-end
-
-function ESS_mcmc(prior, loglikelihood, N::Integer; kwargs...)
-    return ESS_mcmc(Random.GLOBAL_RNG, prior, loglikelihood, N; kwargs...)
-end
-
 # private interface
 
 """

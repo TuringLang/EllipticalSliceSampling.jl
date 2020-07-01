@@ -22,9 +22,10 @@ priors with non-zero means and handle the change of variables internally.
 
 ## Usage
 
-Probably most users would like to use the exported function
+Probably most users would like to generate a MC Markov chain of samples from
+the posterior distribution by calling
 ```julia
-ESS_mcmc([rng, ]prior, loglikelihood, N[; kwargs...])
+sample([rng, ]ESSModel(prior, loglikelihood), ESS(), N[; kwargs...])
 ```
 which returns a vector of `N` samples for approximating the posterior of
 a model with a Gaussian prior that allows sampling from the `prior` and
@@ -34,10 +35,10 @@ If you want to have more control about the sampling procedure (e.g., if you
 only want to save a subset of samples or want to use another stopping
 criterion), the function
 ```julia
-AbstractMCMC.steps!(
+AbstractMCMC.steps(
     [rng,]
-    EllipticalSliceSampling.Model(prior, loglikelihood),
-    EllipticalSliceSampling.EllipticalSliceSampler();
+    ESSModel(prior, loglikelihood),
+    ESS();
     kwargs...
 )
 ```

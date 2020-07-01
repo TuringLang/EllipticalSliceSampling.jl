@@ -1,8 +1,8 @@
 # elliptical slice sampler
-struct EllipticalSliceSampler <: AbstractMCMC.AbstractSampler end
+struct ESS <: AbstractMCMC.AbstractSampler end
 
 # state of the elliptical slice sampler
-struct EllipticalSliceSamplerState{S,L}
+struct ESSState{S,L}
     "Sample of the elliptical slice sampler."
     sample::S
     "Log-likelihood of the sample."
@@ -10,12 +10,10 @@ struct EllipticalSliceSamplerState{S,L}
 end
 
 # first step of the elliptical slice sampler
-function AbstractMCMC.step!(
+function AbstractMCMC.step(
     rng::Random.AbstractRNG,
     model::AbstractMCMC.AbstractModel,
-    ::EllipticalSliceSampler,
-    N::Integer,
-    ::Nothing;
+    ::ESS;
     kwargs...
 )
     # initial sample from the Gaussian prior
@@ -24,16 +22,15 @@ function AbstractMCMC.step!(
     # compute log-likelihood of the initial sample
     loglikelihood = Distributions.loglikelihood(model, f)
 
-    return EllipticalSliceSamplerState(f, loglikelihood)
+    return f, ESSState(f, loglikelihood)
 end
 
 # subsequent steps of the elliptical slice sampler
-function AbstractMCMC.step!(
+function AbstractMCMC.step(
     rng::Random.AbstractRNG,
     model::AbstractMCMC.AbstractModel,
-    ::EllipticalSliceSampler,
-    N::Integer,
-    state::EllipticalSliceSamplerState;
+    ::ESS,
+    state::ESSState;
     kwargs...
 )
     # sample from Gaussian prior
@@ -78,29 +75,5 @@ function AbstractMCMC.step!(
         loglikelihood = Distributions.loglikelihood(model, fnext)
     end
 
-    return EllipticalSliceSamplerState(fnext, loglikelihood)
-end
-
-# only save the samples by default
-function AbstractMCMC.transitions_init(
-    state::EllipticalSliceSamplerState,
-    model::AbstractMCMC.AbstractModel,
-    ::EllipticalSliceSampler,
-    N::Integer;
-    kwargs...
-)
-    return Vector{typeof(state.sample)}(undef, N)
-end
-
-function AbstractMCMC.transitions_save!(
-    samples::AbstractVector{S},
-    iteration::Integer,
-    state::EllipticalSliceSamplerState{S},
-    model::AbstractMCMC.AbstractModel,
-    ::EllipticalSliceSampler,
-    N::Integer;
-    kwargs...
-) where S
-    samples[iteration] = state.sample
-    return
+    return fnext, ESSState(fnext, loglikelihood)
 end
