@@ -7,7 +7,7 @@ import Distributions
 import Random
 import Statistics
 
-export ESS_mcmc
+export sample, ESSModel, ESS
 
 include("abstractmcmc.jl")
 include("model.jl")

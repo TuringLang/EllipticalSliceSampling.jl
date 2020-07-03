@@ -1,6 +1,6 @@
 # internal model structure consisting of prior, log-likelihood function, and a cache
 
-struct Model{P,L,C} <: AbstractMCMC.AbstractModel
+struct ESSModel{P,L,C} <: AbstractMCMC.AbstractModel
     "Gaussian prior."
     prior::P
     "Log likelihood function."
@@ -8,7 +8,7 @@ struct Model{P,L,C} <: AbstractMCMC.AbstractModel
     "Cache."
     cache::C
 
-    function Model{P,L}(prior::P, loglikelihood::L) where {P,L}
+    function ESSModel{P,L}(prior::P, loglikelihood::L) where {P,L}
         isgaussian(P) ||
             error("prior distribution has to be a Gaussian distribution")
 
@@ -19,8 +19,8 @@ struct Model{P,L,C} <: AbstractMCMC.AbstractModel
     end
 end
 
-Model(prior, loglikelihood) =
-    Model{typeof(prior),typeof(loglikelihood)}(prior, loglikelihood)
+ESSModel(prior, loglikelihood) =
+    ESSModel{typeof(prior),typeof(loglikelihood)}(prior, loglikelihood)
 
 # cache for high-dimensional samplers
 function cache(dist)
@@ -39,11 +39,11 @@ isgaussian(dist) = false
 randtype(dist) = eltype(dist)
 
 # evaluate the loglikelihood of a sample
-Distributions.loglikelihood(model::Model, f) = model.loglikelihood(f)
+Distributions.loglikelihood(model::ESSModel, f) = model.loglikelihood(f)
 
 # sample from the prior
-initial_sample(rng::Random.AbstractRNG, model::Model) = rand(rng, model.prior)
-function sample_prior(rng::Random.AbstractRNG, model::Model)
+initial_sample(rng::Random.AbstractRNG, model::ESSModel) = rand(rng, model.prior)
+function sample_prior(rng::Random.AbstractRNG, model::ESSModel)
     cache = model.cache
 
     if cache === nothing
@@ -55,8 +55,8 @@ function sample_prior(rng::Random.AbstractRNG, model::Model)
 end
 
 # compute the proposal
-proposal(model::Model, f, ν, θ) = proposal(model.prior, f, ν, θ)
-proposal!(out, model::Model, f, ν, θ) = proposal!(out, model.prior, f, ν, θ)
+proposal(model::ESSModel, f, ν, θ) = proposal(model.prior, f, ν, θ)
+proposal!(out, model::ESSModel, f, ν, θ) = proposal!(out, model.prior, f, ν, θ)
 
 # default out-of-place implementation
 function proposal(prior, f, ν, θ)

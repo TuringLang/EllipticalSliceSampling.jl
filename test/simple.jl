@@ -18,7 +18,7 @@ using Test
     μ = 0.8
     σ² = 0.2
 
-    samples = ESS_mcmc(prior, ℓ, 2_000; progress = false)
+    samples = sample(ESSModel(prior, ℓ), ESS(), 2_000; progress = false)
 
     @test mean(samples) ≈ μ atol=0.05
     @test var(samples) ≈ σ² atol=0.05
@@ -35,7 +35,7 @@ end
     μ = 0.9
     σ² = 0.2
 
-    samples = ESS_mcmc(prior, ℓ, 2_000; progress = false)
+    samples = sample(ESSModel(prior, ℓ), ESS(), 2_000; progress = false)
 
     @test mean(samples) ≈ μ atol=0.05
     @test var(samples) ≈ σ² atol=0.05
@@ -53,7 +53,7 @@ end
     μ = [0.8]
     σ² = [0.2]
 
-    samples = ESS_mcmc(prior, ℓ, 2_000; progress = false)
+    samples = sample(ESSModel(prior, ℓ), ESS(), 2_000; progress = false)
 
     @test mean(samples) ≈ μ atol=0.05
     @test var(samples) ≈ σ² atol=0.05
@@ -70,7 +70,7 @@ end
     μ = [0.9]
     σ² = [0.2]
 
-    samples = ESS_mcmc(prior, ℓ, 2_000; progress = false)
+    samples = sample(ESSModel(prior, ℓ), ESS(), 2_000; progress = false)
 
     @test mean(samples) ≈ μ atol=0.05
     @test var(samples) ≈ σ² atol=0.05
