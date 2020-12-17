@@ -1,19 +1,9 @@
-using EllipticalSliceSampling
-
-using Distances
-using Distributions
-
-using LinearAlgebra
-using Random
-using Statistics
-using Test
-
-Random.seed!(0)
+@testset "regression.jl" begin
 
 # number of input features
-const N = 200
+N = 200
 # homoscedastic observation noise
-const σ = 0.3
+σ = 0.3
 
 # experiment of Murray et al.
 @testset "GP regression" begin
@@ -73,4 +63,5 @@ end
 
     # compare with empirical estimates
     @test mean(samples) ≈ posterior_μ rtol = 0.02
+end
 end

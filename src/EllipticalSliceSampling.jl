@@ -7,11 +7,14 @@ import Distributions
 import Random
 import Statistics
 
-export sample, ESSModel, ESS
+export ESSModel, ESS
+
+# reexports
+using AbstractMCMC: sample, MCMCThreads, MCMCDistributed
+export sample, MCMCThreads, MCMCDistributed
 
 include("abstractmcmc.jl")
 include("model.jl")
-include("distributions.jl")
 include("interface.jl")
 
 end # module

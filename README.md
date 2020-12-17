@@ -30,6 +30,16 @@ which returns a vector of `N` samples for approximating the posterior of
 a model with a Gaussian prior that allows sampling from the `prior` and
 evaluation of the log likelihood `loglikelihood`.
 
+You can sample multiple chains in parallel with multiple threads or processes
+by running
+```julia
+sample([rng, ]ESSModel(prior, loglikelihood), ESS(), MCMCThreads(), N, nchains[; kwargs...])
+```
+or
+```julia
+sample([rng, ]ESSModel(prior, loglikelihood), ESS(), MCMCDistributed(), N, nchains[; kwargs...])
+```
+
 If you want to have more control about the sampling procedure (e.g., if you
 only want to save a subset of samples or want to use another stopping
 criterion), the function
@@ -43,6 +53,9 @@ AbstractMCMC.steps(
 ```
 gives you access to an iterator from which you can generate an unlimited
 number of samples.
+
+For more details regarding `sample` and `steps` please check the documentation of
+[AbstractMCMC.jl](https://github.com/TuringLang/AbstractMCMC.jl).
 
 ### Prior
 
@@ -74,12 +87,6 @@ Statistics.mean(dist::GaussianPrior) = ...
 # - otherwise only `rand!(rng, dist, sample)` is required
 Base.rand(rng::AbstractRNG, dist::GaussianPrior) = ...
 Random.rand!(rng::AbstractRNG, dist::GaussianPrior, sample) = ...
-
-# specify the type of a sample from the distribution
-Base.eltype(::Type{<:GaussianPrior}) = ...
-
-# in the case of mutable samples, specify the array size of the samples
-Base.size(dist::GaussianPrior) = ...
 ```
 
 ### Log likelihood

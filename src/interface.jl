@@ -1,49 +1,73 @@
 # private interface
 
 """
+    isgaussian(dist)
+
+Check if distribution `dist` is a Gaussian distribution.
+"""
+isgaussian(dist) = false
+isgaussian(::Type{<:Distributions.Normal}) = true
+isgaussian(::Type{<:Distributions.NormalCanon}) = true
+isgaussian(::Type{<:Distributions.AbstractMvNormal}) = true
+
+"""
+    prior(model)
+
+Return the prior distribution of the `model`.
+"""
+function prior(::AbstractMCMC.AbstractModel) end
+
+"""
     initial_sample(rng, model)
 
 Return the initial sample for the `model` using the random number generator `rng`.
 
-By default, sample from the prior by calling [`sample_prior(rng, model)`](@ref).
+By default, sample from [`prior(model)`](@ref).
 """
 function initial_sample(rng::Random.AbstractRNG, model::AbstractMCMC.AbstractModel)
-    return sample_prior(rng, model)
+    return Random.rand(rng, prior(model))
 end
 
 """
-    sample_prior(rng, model)
+    proposal(prior, f, ν, θ)
 
-Sample from the prior of the `model` using the random number generator `rng`.
-"""
-function sample_prior(::Random.AbstractRNG, ::AbstractMCMC.AbstractModel) end
-
-"""
-    proposal(model, f, ν, θ)
-
-Compute the proposal for the next sample in the elliptical slice sampling algorithm for the
-`model` from the previous sample `f`, the sample `ν` from the Gaussian prior, and the angle
-`θ`.
+Compute the proposal for the next sample in the elliptical slice sampling algorithm.
 
 Mathematically, the proposal can be computed as
 ```math
-\\cos θ f + ν \\sin θ ν + μ (1 - \\sin θ + \\cos θ),
+f \\cos θ + ν \\sin θ + μ (1 - (\\sin θ + \\cos θ)),
 ```
-where ``μ`` is the mean of the Gaussian prior.
+where ``μ`` is the mean of the Gaussian `prior`, `f` is the previous sample, and `ν` is a
+sample from the Gaussian `prior`.
+
+See also: [`proposal!`](@ref)
 """
-function proposal(model::AbstractMCMC.AbstractModel, f, ν, θ) end
+function proposal(prior, f, ν, θ)
+    sinθ, cosθ = sincos(θ)
+    a = 1 - (sinθ + cosθ)
+    μ = Statistics.mean(prior)
+    return @. cosθ * f + sinθ * ν + a * μ
+end
 
 """
     proposal!(out, model, f, ν, θ)
 
-Compute the proposal for the next sample in the elliptical slice sampling algorithm for the
-`model` from the previous sample `f`, the sample `ν` from the Gaussian prior, and the angle
-`θ`, and save it to `out`.
+Compute the proposal for the next sample in the elliptical slice sampling algorithm, and
+save it to `out`.
 
 Mathematically, the proposal can be computed as
 ```math
-\\cos θ f + ν \\sin θ ν + μ (1 - \\sin θ + \\cos θ),
+f \\cos θ + ν \\sin θ + μ (1 - (\\sin θ + \\cos θ)),
 ```
-where ``μ`` is the mean of the Gaussian prior.
+where ``μ`` is the mean of the Gaussian `prior`, `f` is the previous sample, and `ν` is a
+sample from the Gaussian `prior`.
+
+See also: [`proposal`](@ref)
 """
-function proposal!(out, model::AbstractMCMC.AbstractModel, f, ν, θ) end
+function proposal!(out, prior, f, ν, θ)
+    sinθ, cosθ = sincos(θ)
+    a = 1 - (sinθ + cosθ)
+    μ = Statistics.mean(prior)
+    @. out = cosθ * f + sinθ * ν + a * μ
+    return out
+end

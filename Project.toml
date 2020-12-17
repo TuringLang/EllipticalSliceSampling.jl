@@ -1,7 +1,7 @@
 name = "EllipticalSliceSampling"
 uuid = "cad2338a-1db2-11e9-3401-43bc07c9ede2"
-authors = ["David Widmann <dev+git@devmotion.de>"]
-version = "0.3.1"
+authors = ["David Widmann <david.widmann@it.uu.se>"]
+version = "0.4.0"
 
 [deps]
 AbstractMCMC = "80f14c24-f653-4e6a-9b94-39d6b0f70001"
@@ -18,11 +18,11 @@ julia = "1"
 
 [extras]
 Distances = "b4f34e82-e78d-54a5-968a-f98e89d6e8f7"
+Distributed = "8ba89e20-285c-5b6f-9357-94700520ee1b"
 FillArrays = "1a297f60-69ca-5386-bcde-b61e274b549b"
 LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
-SafeTestsets = "1bc83da4-3b8d-516f-aca4-4fe02f6d838f"
 Statistics = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [targets]
-test = ["Distances", "FillArrays", "LinearAlgebra", "SafeTestsets", "Statistics", "Test"]
+test = ["Distances", "Distributed", "FillArrays", "LinearAlgebra", "Statistics", "Test"]

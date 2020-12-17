@@ -2,11 +2,19 @@
 struct ESS <: AbstractMCMC.AbstractSampler end
 
 # state of the elliptical slice sampler
-struct ESSState{S,L}
+struct ESSState{S,L,C}
     "Sample of the elliptical slice sampler."
     sample::S
     "Log-likelihood of the sample."
     loglikelihood::L
+    "Cache used for in-place sampling."
+    cache::C
+end
+
+function ESSState(sample, loglikelihood)
+    # create cache since it was not provided (initial sampling step)
+    cache = ArrayInterface.ismutable(sample) ? similar(sample) : nothing
+    return ESSState(sample, loglikelihood, cache)
 end
 
 # first step of the elliptical slice sampler
@@ -33,8 +41,17 @@ function AbstractMCMC.step(
     state::ESSState;
     kwargs...
 )
+    # obtain the prior
+    prior = EllipticalSliceSampling.prior(model)
+
     # sample from Gaussian prior
-    ν = sample_prior(rng, model)
+    cache = state.cache
+    if cache === nothing
+        ν = Random.rand(rng, prior)
+    else
+        Random.rand!(rng, prior, cache)
+        ν = cache
+    end
 
     # sample log-likelihood threshold
     loglikelihood = state.loglikelihood
@@ -47,7 +64,7 @@ function AbstractMCMC.step(
 
     # compute the proposal
     f = state.sample
-    fnext = proposal(model, f, ν, θ)
+    fnext = proposal(prior, f, ν, θ)
 
     # compute the log-likelihood of the proposal
     loglikelihood = Distributions.loglikelihood(model, fnext)
@@ -66,14 +83,14 @@ function AbstractMCMC.step(
 
         # recompute the proposal
         if ArrayInterface.ismutable(fnext)
-            proposal!(fnext, model, f, ν, θ)
+            proposal!(fnext, prior, f, ν, θ)
         else
-            fnext = proposal(model, f, ν, θ)
+            fnext = proposal(prior, f, ν, θ)
         end
 
         # compute the log-likelihood of the proposal
         loglikelihood = Distributions.loglikelihood(model, fnext)
     end
 
-    return fnext, ESSState(fnext, loglikelihood)
+    return fnext, ESSState(fnext, loglikelihood, cache)
 end
