@@ -11,7 +11,6 @@ export sample, ESSModel, ESS
 
 include("abstractmcmc.jl")
 include("model.jl")
-include("distributions.jl")
 include("interface.jl")
 
 end # module
