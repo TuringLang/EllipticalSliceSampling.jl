@@ -7,14 +7,14 @@ struct ESSModel{P,L} <: AbstractMCMC.AbstractModel
     loglikelihood::L
 
     function ESSModel{P,L}(prior::P, loglikelihood::L) where {P,L}
-        isgaussian(P) ||
-            error("prior distribution has to be a Gaussian distribution")
-        new{P,L}(prior, loglikelihood)
+        isgaussian(P) || error("prior distribution has to be a Gaussian distribution")
+        return new{P,L}(prior, loglikelihood)
     end
 end
 
-ESSModel(prior, loglikelihood) =
-    ESSModel{typeof(prior),typeof(loglikelihood)}(prior, loglikelihood)
+function ESSModel(prior, loglikelihood)
+    return ESSModel{typeof(prior),typeof(loglikelihood)}(prior, loglikelihood)
+end
 
 # obtain prior
 prior(model::ESSModel) = model.prior

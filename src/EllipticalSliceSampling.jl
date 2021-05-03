@@ -1,11 +1,11 @@
 module EllipticalSliceSampling
 
-import AbstractMCMC
-import ArrayInterface
-import Distributions
+using AbstractMCMC: AbstractMCMC
+using ArrayInterface: ArrayInterface
+using Distributions: Distributions
 
-import Random
-import Statistics
+using Random: Random
+using Statistics: Statistics
 
 export ESSModel, ESS
 

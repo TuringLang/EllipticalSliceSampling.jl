@@ -21,8 +21,12 @@ end
 
 @testset "EllipticalSliceSampling" begin
     println("Simple tests")
-    @testset "Simple tests" begin include("simple.jl") end
+    @testset "Simple tests" begin
+        include("simple.jl")
+    end
 
     println("GP regression tests")
-    @testset "GP regression tests" begin include("regression.jl") end
+    @testset "GP regression tests" begin
+        include("regression.jl")
+    end
 end
