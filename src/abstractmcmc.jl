@@ -19,10 +19,7 @@ end
 
 # first step of the elliptical slice sampler
 function AbstractMCMC.step(
-    rng::Random.AbstractRNG,
-    model::AbstractMCMC.AbstractModel,
-    ::ESS;
-    kwargs...
+    rng::Random.AbstractRNG, model::AbstractMCMC.AbstractModel, ::ESS; kwargs...
 )
     # initial sample from the Gaussian prior
     f = initial_sample(rng, model)
@@ -39,7 +36,7 @@ function AbstractMCMC.step(
     model::AbstractMCMC.AbstractModel,
     ::ESS,
     state::ESSState;
-    kwargs...
+    kwargs...,
 )
     # obtain the prior
     prior = EllipticalSliceSampling.prior(model)

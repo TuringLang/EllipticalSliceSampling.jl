@@ -6,6 +6,7 @@ Julia implementation of elliptical slice sampling.
 [![Build Status](https://github.com/TuringLang/EllipticalSliceSampling.jl/workflows/CI/badge.svg?branch=main)](https://github.com/TuringLang/EllipticalSliceSampling.jl/actions?query=workflow%3ACI%20branch%3Amain)
 [![Codecov](https://codecov.io/gh/TuringLang/EllipticalSliceSampling.jl/branch/main/graph/badge.svg)](https://codecov.io/gh/TuringLang/EllipticalSliceSampling.jl)
 [![Coveralls](https://coveralls.io/repos/github/TuringLang/EllipticalSliceSampling.jl/badge.svg?branch=main)](https://coveralls.io/github/TuringLang/EllipticalSliceSampling.jl?branch=main)
+[![Code Style: Blue](https://img.shields.io/badge/code%20style-blue-4495d1.svg)](https://github.com/invenia/BlueStyle)
 
 ## Overview
 
