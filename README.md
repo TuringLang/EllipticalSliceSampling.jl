@@ -3,9 +3,9 @@
 Julia implementation of elliptical slice sampling.
 
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
-[![Build Status](https://github.com/TuringLang/EllipticalSliceSampling.jl/workflows/CI/badge.svg?branch=master)](https://github.com/TuringLang/EllipticalSliceSampling.jl/actions?query=workflow%3ACI%20branch%3Amaster)
-[![Codecov](https://codecov.io/gh/TuringLang/EllipticalSliceSampling.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/TuringLang/EllipticalSliceSampling.jl)
-[![Coveralls](https://coveralls.io/repos/github/TuringLang/EllipticalSliceSampling.jl/badge.svg?branch=master)](https://coveralls.io/github/TuringLang/EllipticalSliceSampling.jl?branch=master)
+[![Build Status](https://github.com/TuringLang/EllipticalSliceSampling.jl/workflows/CI/badge.svg?branch=main)](https://github.com/TuringLang/EllipticalSliceSampling.jl/actions?query=workflow%3ACI%20branch%3Amain)
+[![Codecov](https://codecov.io/gh/TuringLang/EllipticalSliceSampling.jl/branch/main/graph/badge.svg)](https://codecov.io/gh/TuringLang/EllipticalSliceSampling.jl)
+[![Coveralls](https://coveralls.io/repos/github/TuringLang/EllipticalSliceSampling.jl/badge.svg?branch=main)](https://coveralls.io/github/TuringLang/EllipticalSliceSampling.jl?branch=main)
 
 ## Overview
 
