@@ -10,8 +10,8 @@ using Statistics: Statistics
 export ESSModel, ESS
 
 # reexports
-using AbstractMCMC: sample, MCMCThreads, MCMCDistributed
-export sample, MCMCThreads, MCMCDistributed
+using AbstractMCMC: sample, MCMCThreads, MCMCDistributed, MCMCSerial
+export sample, MCMCThreads, MCMCDistributed, MCMCSerial
 
 include("abstractmcmc.jl")
 include("model.jl")
