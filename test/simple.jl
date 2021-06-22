@@ -29,7 +29,7 @@
         @test var(samples) ≈ σ² atol = 0.05
 
         # parallel sampling
-        for alg in (MCMCThreads(), MCMCDistributed())
+        for alg in (MCMCThreads(), MCMCDistributed(), MCMCSerial())
             samples = sample(model, ESS(), alg, 2_000, 5; progress=false)
             @test samples isa Vector{Vector{Float64}}
             @test length(samples) == 5
@@ -57,7 +57,7 @@
         @test var(samples) ≈ σ² atol = 0.05
 
         # parallel sampling
-        for alg in (MCMCThreads(), MCMCDistributed())
+        for alg in (MCMCThreads(), MCMCDistributed(), MCMCSerial())
             samples = sample(ESSModel(prior, ℓ), ESS(), alg, 2_000, 5; progress=false)
             @test samples isa Vector{Vector{Float64}}
             @test length(samples) == 5
@@ -86,7 +86,7 @@
         @test var(samples) ≈ σ² atol = 0.05
 
         # parallel sampling
-        for alg in (MCMCThreads(), MCMCDistributed())
+        for alg in (MCMCThreads(), MCMCDistributed(), MCMCSerial())
             samples = sample(ESSModel(prior, ℓvec), ESS(), alg, 2_000, 5; progress=false)
             @test samples isa Vector{Vector{Vector{Float64}}}
             @test length(samples) == 5
@@ -115,7 +115,7 @@
         @test var(samples) ≈ σ² atol = 0.05
 
         # parallel sampling
-        for alg in (MCMCThreads(), MCMCDistributed())
+        for alg in (MCMCThreads(), MCMCDistributed(), MCMCSerial())
             samples = sample(ESSModel(prior, ℓvec), ESS(), alg, 2_000, 5; progress=false)
             @test samples isa Vector{Vector{Vector{Float64}}}
             @test length(samples) == 5
