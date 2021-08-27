@@ -27,10 +27,7 @@
             observations = rand(prior) .+ σ .* randn(N)
 
             # define log likelihood function
-            ℓ(f) =
-                let observations = observations, σ = σ
-                    logpdf(MvNormal(f, σ), observations)
-                end
+            ℓ(f) = logpdf(MvNormal(f, σ^2 * I), observations)
 
             # run elliptical slice sampler for 100 000 time steps
             samples = sample(ESSModel(prior, ℓ), ESS(), 100_000; progress=false)
@@ -47,16 +44,13 @@
     # extreme case with independent observations
     @testset "Independent components" begin
         # define  distribution of latent variables
-        prior = MvNormal(N, 1)
+        prior = MvNormal(Zeros(N), I)
 
         # sample noisy observations
         observations = rand(prior) .+ σ .* randn(N)
 
         # define log likelihood function
-        ℓ(f) =
-            let observations = observations, σ = σ
-                logpdf(MvNormal(f, σ), observations)
-            end
+        ℓ(f) = logpdf(MvNormal(f, σ^2 * I), observations)
 
         # run elliptical slice sampling for 100 000 time steps
         samples = sample(ESSModel(prior, ℓ), ESS(), 100_000; progress=false)
