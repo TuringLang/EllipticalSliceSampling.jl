@@ -17,16 +17,18 @@ addprocs(2)
 @everywhere begin
     using EllipticalSliceSampling
     using Distributions
+
+    using LinearAlgebra
 end
 
 @testset "EllipticalSliceSampling" begin
     println("Simple tests")
-    @testset "Simple tests" begin
+    @time @testset "Simple tests" begin
         include("simple.jl")
     end
 
     println("GP regression tests")
-    @testset "GP regression tests" begin
+    @time @testset "GP regression tests" begin
         include("regression.jl")
     end
 end
