@@ -10,4 +10,8 @@ makedocs(;
     checkdocs=:exports,
 )
 
-deploydocs(; repo="github.com/TuringLang/EllipticalSliceSampling.jl.git", devbranch="main", push_preview=true)
+deploydocs(;
+    repo="github.com/TuringLang/EllipticalSliceSampling.jl.git",
+    devbranch="main",
+    push_preview=true,
+)
