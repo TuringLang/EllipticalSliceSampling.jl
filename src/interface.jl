@@ -24,7 +24,7 @@ Return the initial sample for the `model` using the random number generator `rng
 
 By default, sample from [`prior(model)`](@ref).
 """
-function initial_sample(rng::Random.AbstractRNG, model::AbstractMCMC.AbstractModel)
+function initial_sample(rng::Random.AbstractRNG, model::AbstractMCMC.AbstractModel; kwargs...)
     return Random.rand(rng, prior(model))
 end
 
