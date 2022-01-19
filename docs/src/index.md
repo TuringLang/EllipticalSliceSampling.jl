@@ -55,6 +55,8 @@ AbstractMCMC.steps(
 gives you access to an iterator from which you can generate an unlimited
 number of samples.
 
+You can define the starting point of your chain using the `init_params` keyword argument.
+
 For more details regarding `sample` and `steps` please check the documentation of
 [AbstractMCMC.jl](https://github.com/TuringLang/AbstractMCMC.jl).
 

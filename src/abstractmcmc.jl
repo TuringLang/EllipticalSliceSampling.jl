@@ -19,10 +19,14 @@ end
 
 # first step of the elliptical slice sampler
 function AbstractMCMC.step(
-    rng::Random.AbstractRNG, model::AbstractMCMC.AbstractModel, ::ESS; kwargs...
+    rng::Random.AbstractRNG,
+    model::AbstractMCMC.AbstractModel,
+    ::ESS;
+    init_params=nothing,
+    kwargs...,
 )
     # initial sample from the Gaussian prior
-    f = initial_sample(rng, model)
+    f = init_params === nothing ? initial_sample(rng, model) : init_params
 
     # compute log-likelihood of the initial sample
     loglikelihood = Distributions.loglikelihood(model, f)

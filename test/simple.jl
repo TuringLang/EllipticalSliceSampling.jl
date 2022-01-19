@@ -34,6 +34,11 @@
             @test mean(mean, samples) ≈ μ atol = 0.05
             @test mean(var, samples) ≈ σ² atol = 0.05
         end
+
+        # initial parameter
+        init_x = randn()
+        samples = sample(ESSModel(prior, ℓ), ESS(), 10; progress=false, init_params=init_x)
+        @test first(samples) == init_x
     end
 
     @testset "Scalar model with nonzero mean" begin
@@ -62,6 +67,11 @@
             @test mean(mean, samples) ≈ μ atol = 0.05
             @test mean(var, samples) ≈ σ² atol = 0.05
         end
+
+        # initial parameter
+        init_x = randn()
+        samples = sample(ESSModel(prior, ℓ), ESS(), 10; progress=false, init_params=init_x)
+        @test first(samples) == init_x
     end
 
     @testset "Scalar model (vectorized)" begin
@@ -91,6 +101,13 @@
             @test mean(mean, samples) ≈ μ atol = 0.05
             @test mean(var, samples) ≈ σ² atol = 0.05
         end
+
+        # initial parameter
+        init_x = randn(1)
+        samples = sample(
+            ESSModel(prior, ℓvec), ESS(), 10; progress=false, init_params=init_x
+        )
+        @test first(samples) == init_x
     end
 
     @testset "Scalar model with nonzero mean (vectorized)" begin
@@ -120,5 +137,12 @@
             @test mean(mean, samples) ≈ μ atol = 0.05
             @test mean(var, samples) ≈ σ² atol = 0.05
         end
+
+        # initial parameter
+        init_x = randn(1)
+        samples = sample(
+            ESSModel(prior, ℓvec), ESS(), 10; progress=false, init_params=init_x
+        )
+        @test first(samples) == init_x
     end
 end
