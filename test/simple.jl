@@ -41,6 +41,7 @@
 
         # model
         prior = Normal(0.5, 1)
+        init_x = randn()
 
         # true posterior
         μ = 0.9
@@ -62,6 +63,10 @@
             @test mean(mean, samples) ≈ μ atol = 0.05
             @test mean(var, samples) ≈ σ² atol = 0.05
         end
+
+        # initial parameter
+        sample = sample(ESSModel(prior, ℓ), ESS(), 10; progress=false, init_params=init_x)
+        @test first(samples) == init_x
     end
 
     @testset "Scalar model (vectorized)" begin
@@ -69,6 +74,7 @@
 
         # model
         prior = MvNormal([0.0], I)
+        init_x = randn(1)
 
         # true posterior
         μ = [0.8]
@@ -91,6 +97,10 @@
             @test mean(mean, samples) ≈ μ atol = 0.05
             @test mean(var, samples) ≈ σ² atol = 0.05
         end
+
+        # initial parameter
+        sample = sample(ESSModel(prior, ℓ), ESS(), 10; progress=false, init_params=init_x)
+        @test first(samples) == init_x
     end
 
     @testset "Scalar model with nonzero mean (vectorized)" begin
