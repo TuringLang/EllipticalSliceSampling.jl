@@ -34,6 +34,10 @@
             @test mean(mean, samples) ≈ μ atol = 0.05
             @test mean(var, samples) ≈ σ² atol = 0.05
         end
+
+        # initial parameter
+        samples = sample(ESSModel(prior, ℓ), ESS(), 10; progress=false, init_params=init_x)
+        @test first(samples) == init_x
     end
 
     @testset "Scalar model with nonzero mean" begin
@@ -65,7 +69,7 @@
         end
 
         # initial parameter
-        sample = sample(ESSModel(prior, ℓ), ESS(), 10; progress=false, init_params=init_x)
+        samples = sample(ESSModel(prior, ℓ), ESS(), 10; progress=false, init_params=init_x)
         @test first(samples) == init_x
     end
 
@@ -99,7 +103,7 @@
         end
 
         # initial parameter
-        sample = sample(ESSModel(prior, ℓ), ESS(), 10; progress=false, init_params=init_x)
+        samples = sample(ESSModel(prior, ℓ), ESS(), 10; progress=false, init_params=init_x)
         @test first(samples) == init_x
     end
 
