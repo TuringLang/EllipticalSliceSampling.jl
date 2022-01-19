@@ -13,7 +13,7 @@
 
         # model
         prior = Normal(0, 1)
-        init_x = randn()
+
         # true posterior
         μ = 0.8
         σ² = 0.2
@@ -36,6 +36,7 @@
         end
 
         # initial parameter
+        init_x = randn()
         samples = sample(ESSModel(prior, ℓ), ESS(), 10; progress=false, init_params=init_x)
         @test first(samples) == init_x
     end
@@ -45,7 +46,6 @@
 
         # model
         prior = Normal(0.5, 1)
-        init_x = randn()
 
         # true posterior
         μ = 0.9
@@ -69,6 +69,7 @@
         end
 
         # initial parameter
+        init_x = randn()
         samples = sample(ESSModel(prior, ℓ), ESS(), 10; progress=false, init_params=init_x)
         @test first(samples) == init_x
     end
@@ -78,7 +79,6 @@
 
         # model
         prior = MvNormal([0.0], I)
-        init_x = randn(1)
 
         # true posterior
         μ = [0.8]
@@ -103,7 +103,8 @@
         end
 
         # initial parameter
-        samples = sample(ESSModel(prior, ℓ), ESS(), 10; progress=false, init_params=init_x)
+        init_x = randn(1)
+        samples = sample(ESSModel(prior, ℓvec), ESS(), 10; progress=false, init_params=init_x)
         @test first(samples) == init_x
     end
 
@@ -134,5 +135,10 @@
             @test mean(mean, samples) ≈ μ atol = 0.05
             @test mean(var, samples) ≈ σ² atol = 0.05
         end
+
+        # initial parameter
+        init_x = randn(1)
+        samples = sample(ESSModel(prior, ℓvec), ESS(), 10; progress=false, init_params=init_x)
+        @test first(samples) == init_x
     end
 end
