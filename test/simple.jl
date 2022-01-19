@@ -14,7 +14,6 @@
         # model
         prior = Normal(0, 1)
         init_x = randn()
-        
         # true posterior
         μ = 0.8
         σ² = 0.2
