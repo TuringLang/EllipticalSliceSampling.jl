@@ -104,7 +104,9 @@
 
         # initial parameter
         init_x = randn(1)
-        samples = sample(ESSModel(prior, ℓvec), ESS(), 10; progress=false, init_params=init_x)
+        samples = sample(
+            ESSModel(prior, ℓvec), ESS(), 10; progress=false, init_params=init_x
+        )
         @test first(samples) == init_x
     end
 
@@ -138,7 +140,9 @@
 
         # initial parameter
         init_x = randn(1)
-        samples = sample(ESSModel(prior, ℓvec), ESS(), 10; progress=false, init_params=init_x)
+        samples = sample(
+            ESSModel(prior, ℓvec), ESS(), 10; progress=false, init_params=init_x
+        )
         @test first(samples) == init_x
     end
 end
