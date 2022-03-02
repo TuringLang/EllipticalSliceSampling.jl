@@ -1,7 +1,7 @@
 name = "EllipticalSliceSampling"
 uuid = "cad2338a-1db2-11e9-3401-43bc07c9ede2"
 authors = ["David Widmann <david.widmann@it.uu.se>"]
-version = "0.4.6"
+version = "0.4.7"
 
 [deps]
 AbstractMCMC = "80f14c24-f653-4e6a-9b94-39d6b0f70001"
@@ -12,7 +12,7 @@ Statistics = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
 
 [compat]
 AbstractMCMC = "3.2"
-ArrayInterface = "2, 3, 4"
+ArrayInterface = "2, 3, 4, 5"
 Distributions = "0.22, 0.23, 0.24, 0.25"
 julia = "1"
 
