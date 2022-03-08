@@ -33,6 +33,13 @@
             @test all(length(x) == 2_000 for x in samples)
             @test mean(mean, samples) ≈ μ atol = 0.05
             @test mean(var, samples) ≈ σ² atol = 0.05
+
+            # initial parameter
+            init_x = randn(5)
+            samples = sample(
+                ESSModel(prior, ℓ), ESS(), alg, 10, 5; progress=false, init_params=init_x
+            )
+            @test map(first, samples) == init_x
         end
 
         # initial parameter
@@ -66,6 +73,13 @@
             @test all(length(x) == 2_000 for x in samples)
             @test mean(mean, samples) ≈ μ atol = 0.05
             @test mean(var, samples) ≈ σ² atol = 0.05
+
+            # initial parameter
+            init_x = randn(5)
+            samples = sample(
+                ESSModel(prior, ℓ), ESS(), alg, 10, 5; progress=false, init_params=init_x
+            )
+            @test map(first, samples) == init_x
         end
 
         # initial parameter
@@ -100,6 +114,13 @@
             @test all(length(x) == 2_000 for x in samples)
             @test mean(mean, samples) ≈ μ atol = 0.05
             @test mean(var, samples) ≈ σ² atol = 0.05
+
+            # initial parameter
+            init_x = [randn(1) for _ in 1:5]
+            samples = sample(
+                ESSModel(prior, ℓvec), ESS(), alg, 10, 5; progress=false, init_params=init_x
+            )
+            @test map(first, samples) == init_x
         end
 
         # initial parameter
@@ -136,6 +157,13 @@
             @test all(length(x) == 2_000 for x in samples)
             @test mean(mean, samples) ≈ μ atol = 0.05
             @test mean(var, samples) ≈ σ² atol = 0.05
+
+            # initial parameter
+            init_x = [randn(1) for _ in 1:5]
+            samples = sample(
+                ESSModel(prior, ℓvec), ESS(), alg, 10, 5; progress=false, init_params=init_x
+            )
+            @test map(first, samples) == init_x
         end
 
         # initial parameter
