@@ -59,6 +59,6 @@
         posterior_μ = observations / (1 + σ^2)
 
         # compare with empirical estimates
-        @test mean(samples) ≈ posterior_μ rtol = 0.02
+        @test mean(samples) ≈ posterior_μ rtol = 0.05
     end
 end
