@@ -1,7 +1,7 @@
 module EllipticalSliceSampling
 
 using AbstractMCMC: AbstractMCMC
-using ArrayInterface
+using ArrayInterface: ArrayInterface
 using Distributions: Distributions
 
 using Random: Random
