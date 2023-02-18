@@ -13,7 +13,7 @@ end
 
 function ESSState(sample, loglikelihood)
     # create cache since it was not provided (initial sampling step)
-    cache = ArrayInterfaceCore.ismutable(sample) ? similar(sample) : nothing
+    cache = ArrayInterface.ismutable(sample) ? similar(sample) : nothing
     return ESSState(sample, loglikelihood, cache)
 end
 
@@ -83,7 +83,7 @@ function AbstractMCMC.step(
         θ = θmin + rand(rng) * (θmax - θmin)
 
         # recompute the proposal
-        if ArrayInterfaceCore.ismutable(fnext)
+        if ArrayInterface.ismutable(fnext)
             proposal!(fnext, prior, f, ν, θ)
         else
             fnext = proposal(prior, f, ν, θ)
