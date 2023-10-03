@@ -22,11 +22,11 @@ function AbstractMCMC.step(
     rng::Random.AbstractRNG,
     model::AbstractMCMC.AbstractModel,
     ::ESS;
-    init_params=nothing,
+    initial_params=nothing,
     kwargs...,
 )
     # initial sample from the Gaussian prior
-    f = init_params === nothing ? initial_sample(rng, model) : init_params
+    f = initial_params === nothing ? initial_sample(rng, model) : initial_params
 
     # compute log-likelihood of the initial sample
     loglikelihood = Distributions.loglikelihood(model, f)
