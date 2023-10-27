@@ -37,14 +37,16 @@
             # initial parameter
             init_x = randn(5)
             samples = sample(
-                ESSModel(prior, ℓ), ESS(), alg, 10, 5; progress=false, init_params=init_x
+                ESSModel(prior, ℓ), ESS(), alg, 10, 5; progress=false, initial_params=init_x
             )
             @test map(first, samples) == init_x
         end
 
         # initial parameter
         init_x = randn()
-        samples = sample(ESSModel(prior, ℓ), ESS(), 10; progress=false, init_params=init_x)
+        samples = sample(
+            ESSModel(prior, ℓ), ESS(), 10; progress=false, initial_params=init_x
+        )
         @test first(samples) == init_x
     end
 
@@ -77,14 +79,16 @@
             # initial parameter
             init_x = randn(5)
             samples = sample(
-                ESSModel(prior, ℓ), ESS(), alg, 10, 5; progress=false, init_params=init_x
+                ESSModel(prior, ℓ), ESS(), alg, 10, 5; progress=false, initial_params=init_x
             )
             @test map(first, samples) == init_x
         end
 
         # initial parameter
         init_x = randn()
-        samples = sample(ESSModel(prior, ℓ), ESS(), 10; progress=false, init_params=init_x)
+        samples = sample(
+            ESSModel(prior, ℓ), ESS(), 10; progress=false, initial_params=init_x
+        )
         @test first(samples) == init_x
     end
 
@@ -118,7 +122,13 @@
             # initial parameter
             init_x = [randn(1) for _ in 1:5]
             samples = sample(
-                ESSModel(prior, ℓvec), ESS(), alg, 10, 5; progress=false, init_params=init_x
+                ESSModel(prior, ℓvec),
+                ESS(),
+                alg,
+                10,
+                5;
+                progress=false,
+                initial_params=init_x,
             )
             @test map(first, samples) == init_x
         end
@@ -126,7 +136,7 @@
         # initial parameter
         init_x = randn(1)
         samples = sample(
-            ESSModel(prior, ℓvec), ESS(), 10; progress=false, init_params=init_x
+            ESSModel(prior, ℓvec), ESS(), 10; progress=false, initial_params=init_x
         )
         @test first(samples) == init_x
     end
@@ -161,7 +171,13 @@
             # initial parameter
             init_x = [randn(1) for _ in 1:5]
             samples = sample(
-                ESSModel(prior, ℓvec), ESS(), alg, 10, 5; progress=false, init_params=init_x
+                ESSModel(prior, ℓvec),
+                ESS(),
+                alg,
+                10,
+                5;
+                progress=false,
+                initial_params=init_x,
             )
             @test map(first, samples) == init_x
         end
@@ -169,7 +185,7 @@
         # initial parameter
         init_x = randn(1)
         samples = sample(
-            ESSModel(prior, ℓvec), ESS(), 10; progress=false, init_params=init_x
+            ESSModel(prior, ℓvec), ESS(), 10; progress=false, initial_params=init_x
         )
         @test first(samples) == init_x
     end
