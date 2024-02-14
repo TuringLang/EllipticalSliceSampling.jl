@@ -6,7 +6,6 @@ makedocs(;
     format=Documenter.HTML(),
     modules=[EllipticalSliceSampling],
     pages=["Home" => "index.md"],
-    strict=true,
     checkdocs=:exports,
 )
 
