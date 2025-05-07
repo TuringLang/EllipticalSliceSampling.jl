@@ -35,6 +35,8 @@
         --item-color: rgb(165, 165, 165);
         --primary-bg: #073c44;
         --hover-color: #8faad2;
+        --deprecated-bg: #ff4d4d;
+        --deprecated-text: white;
     }
 
     .ext-navigation {
@@ -132,6 +134,8 @@
 
     .ext-dropdown ul li {
         text-align: left;
+        display: flex;
+        align-items: center;
     }
 
     .navbar-sub-item {
@@ -153,6 +157,16 @@
     .ext-dropdown-item-heading {
         color: var(--heading-color);
         text-align: center;
+    }
+
+    .deprecated-badge {
+        background-color: var(--deprecated-bg);
+        color: var(--deprecated-text);
+        font-size: 0.75rem;
+        padding: 0.125rem 0.375rem;
+        border-radius: 3px;
+        margin-left: 0.5rem;
+        line-height: 1;
     }
 
     /* Responsive styling */
@@ -212,6 +226,7 @@
 
         .ext-dropdown ul li {
             text-align: center;
+            /* justify-content: center; */
         }
 
         .ext-dropdown ul a li {
@@ -329,7 +344,8 @@
                 </ul>
                 <ul>
                     <li class="ext-dropdown-item-heading ext-navbar-item-single">
-                        <a href="https://turinglang.org/TuringBenchmarking.jl/">TuringBenchmarking</a>
+                        <a href="https://turinglang.org/Deprecated/TuringBenchmarking/">TuringBenchmarking</a>
+                        <span class="deprecated-badge">Deprecated</span>
                     </li>
                 </ul>
             </div>
@@ -458,7 +474,6 @@
 </script>
 <!-- NAVBAR END -->
 
-
 <div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit"><a href>EllipticalSliceSampling</a></span></div><button class="docs-search-query input is-rounded is-small is-clickable my-2 mx-auto py-1 px-2" id="documenter-search-query">Search docs (Ctrl + /)</button><ul class="docs-menu"><li class="is-active"><a class="tocitem" href>Home</a><ul class="internal"><li><a class="tocitem" href="#Overview"><span>Overview</span></a></li><li><a class="tocitem" href="#Poster-at-JuliaCon-2021"><span>Poster at JuliaCon 2021</span></a></li><li><a class="tocitem" href="#Usage"><span>Usage</span></a></li><li><a class="tocitem" href="#References"><span>References</span></a></li></ul></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><a class="docs-sidebar-button docs-navbar-link fa-solid fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a><nav class="breadcrumb"><ul class="is-hidden-mobile"><li class="is-active"><a href>Home</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Home</a></li></ul></nav><div class="docs-right"><a class="docs-navbar-link" href="https://github.com/TuringLang/EllipticalSliceSampling.jl" title="View the repository on GitHub"><span class="docs-icon fa-brands"></span><span class="docs-label is-hidden-touch">GitHub</span></a><a class="docs-navbar-link" href="https://github.com/TuringLang/EllipticalSliceSampling.jl/blob/main/docs/src/index.md" title="Edit source on GitHub"><span class="docs-icon fa-solid"></span></a><a class="docs-settings-button docs-navbar-link fa-solid fa-gear" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-article-toggle-button fa-solid fa-chevron-up" id="documenter-article-toggle-button" href="javascript:;" title="Collapse all docstrings"></a></div></header><article class="content" id="documenter-page"><h1 id="EllipticalSliceSampling"><a class="docs-heading-anchor" href="#EllipticalSliceSampling">EllipticalSliceSampling</a><a id="EllipticalSliceSampling-1"></a><a class="docs-heading-anchor-permalink" href="#EllipticalSliceSampling" title="Permalink"></a></h1><p><em>Julia implementation of elliptical slice sampling.</em></p><h2 id="Overview"><a class="docs-heading-anchor" href="#Overview">Overview</a><a id="Overview-1"></a><a class="docs-heading-anchor-permalink" href="#Overview" title="Permalink"></a></h2><p>This package implements elliptical slice sampling in the Julia language, as described in <a href="http://proceedings.mlr.press/v9/murray10a/murray10a.pdf">Murray, Adams &amp; MacKay (2010)</a>.</p><p>Elliptical slice sampling is a &quot;Markov chain Monte Carlo algorithm for performing inference in models with multivariate Gaussian priors&quot; (Murray, Adams &amp; MacKay (2010)).</p><p>Without loss of generality, the originally described algorithm assumes that the Gaussian prior has zero mean. For convenience we allow the user to specify arbitrary Gaussian priors with non-zero means and handle the change of variables internally.</p><h2 id="Poster-at-JuliaCon-2021"><a class="docs-heading-anchor" href="#Poster-at-JuliaCon-2021">Poster at JuliaCon 2021</a><a id="Poster-at-JuliaCon-2021-1"></a><a class="docs-heading-anchor-permalink" href="#Poster-at-JuliaCon-2021" title="Permalink"></a></h2><p><a href="https://www.youtube.com/watch?v=S5gUED7Uq2Q"><img src="http://img.youtube.com/vi/S5gUED7Uq2Q/0.jpg" alt="EllipticalSliceSampling.jl: MCMC with Gaussian priors"/></a></p><p>The slides are available as <a href="https://talks.widmann.dev/2021/07/ellipticalslicesampling/">Pluto notebook</a>.</p><h2 id="Usage"><a class="docs-heading-anchor" href="#Usage">Usage</a><a id="Usage-1"></a><a class="docs-heading-anchor-permalink" href="#Usage" title="Permalink"></a></h2><p>Probably most users would like to generate a MC Markov chain of samples from the posterior distribution by calling</p><pre><code class="language-julia hljs">sample([rng, ]ESSModel(prior, loglikelihood), ESS(), N[; kwargs...])</code></pre><p>which returns a vector of <code>N</code> samples for approximating the posterior of a model with a Gaussian prior that allows sampling from the <code>prior</code> and evaluation of the log likelihood <code>loglikelihood</code>.</p><p>You can sample multiple chains in parallel with multiple threads or processes by running</p><pre><code class="language-julia hljs">sample([rng, ]ESSModel(prior, loglikelihood), ESS(), MCMCThreads(), N, nchains[; kwargs...])</code></pre><p>or</p><pre><code class="language-julia hljs">sample([rng, ]ESSModel(prior, loglikelihood), ESS(), MCMCDistributed(), N, nchains[; kwargs...])</code></pre><p>If you want to have more control about the sampling procedure (e.g., if you only want to save a subset of samples or want to use another stopping criterion), the function</p><pre><code class="language-julia hljs">AbstractMCMC.steps(
     [rng,]
     ESSModel(prior, loglikelihood),
@@ -478,4 +493,4 @@ Statistics.mean(dist::GaussianPrior) = ...
 #   `rand(rng, dist)` should be implemented
 # - otherwise only `rand!(rng, dist, sample)` is required
 Base.rand(rng::AbstractRNG, dist::GaussianPrior) = ...
-Random.rand!(rng::AbstractRNG, dist::GaussianPrior, sample) = ...</code></pre><h3 id="Log-likelihood"><a class="docs-heading-anchor" href="#Log-likelihood">Log likelihood</a><a id="Log-likelihood-1"></a><a class="docs-heading-anchor-permalink" href="#Log-likelihood" title="Permalink"></a></h3><p>In addition to the prior, you have to specify a Julia implementation of the log likelihood function. Here the predefined log densities and log likelihood functions in <a href="https://github.com/JuliaStats/Distributions.jl">Distributions.jl</a> might be useful.</p><h3 id="Progress-monitor"><a class="docs-heading-anchor" href="#Progress-monitor">Progress monitor</a><a id="Progress-monitor-1"></a><a class="docs-heading-anchor-permalink" href="#Progress-monitor" title="Permalink"></a></h3><p>If you use a package such as <a href="https://junolab.org/">Juno</a> or <a href="https://github.com/c42f/TerminalLoggers.jl">TerminalLoggers.jl</a> that supports progress logs created by the <a href="https://github.com/JunoLab/ProgressLogging.jl">ProgressLogging.jl</a> API, then you can monitor the progress of the sampling algorithm. If you do not specify a progress logging frontend explicitly, <a href="https://github.com/TuringLang/AbstractMCMC.jl">AbstractMCMC.jl</a> picks a frontend for you automatically.</p><h2 id="References"><a class="docs-heading-anchor" href="#References">References</a><a id="References-1"></a><a class="docs-heading-anchor-permalink" href="#References" title="Permalink"></a></h2><p>Murray, I., Adams, R. &amp; MacKay, D.. (2010). Elliptical slice sampling. Proceedings of Machine Learning Research, 9:541-548.</p></article><nav class="docs-footer"><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.8.0 on <span class="colophon-date" title="Sunday 9 February 2025 21:09">Sunday 9 February 2025</span>. Using Julia version 1.11.3.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+Random.rand!(rng::AbstractRNG, dist::GaussianPrior, sample) = ...</code></pre><h3 id="Log-likelihood"><a class="docs-heading-anchor" href="#Log-likelihood">Log likelihood</a><a id="Log-likelihood-1"></a><a class="docs-heading-anchor-permalink" href="#Log-likelihood" title="Permalink"></a></h3><p>In addition to the prior, you have to specify a Julia implementation of the log likelihood function. Here the predefined log densities and log likelihood functions in <a href="https://github.com/JuliaStats/Distributions.jl">Distributions.jl</a> might be useful.</p><h3 id="Progress-monitor"><a class="docs-heading-anchor" href="#Progress-monitor">Progress monitor</a><a id="Progress-monitor-1"></a><a class="docs-heading-anchor-permalink" href="#Progress-monitor" title="Permalink"></a></h3><p>If you use a package such as <a href="https://junolab.org/">Juno</a> or <a href="https://github.com/c42f/TerminalLoggers.jl">TerminalLoggers.jl</a> that supports progress logs created by the <a href="https://github.com/JunoLab/ProgressLogging.jl">ProgressLogging.jl</a> API, then you can monitor the progress of the sampling algorithm. If you do not specify a progress logging frontend explicitly, <a href="https://github.com/TuringLang/AbstractMCMC.jl">AbstractMCMC.jl</a> picks a frontend for you automatically.</p><h2 id="References"><a class="docs-heading-anchor" href="#References">References</a><a id="References-1"></a><a class="docs-heading-anchor-permalink" href="#References" title="Permalink"></a></h2><p>Murray, I., Adams, R. &amp; MacKay, D.. (2010). Elliptical slice sampling. Proceedings of Machine Learning Research, 9:541-548.</p></article><nav class="docs-footer"><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.10.2 on <span class="colophon-date" title="Wednesday 7 May 2025 18:17">Wednesday 7 May 2025</span>. Using Julia version 1.11.5.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
