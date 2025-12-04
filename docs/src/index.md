@@ -18,7 +18,7 @@ priors with non-zero means and handle the change of variables internally.
 
 [![EllipticalSliceSampling.jl: MCMC with Gaussian priors](http://img.youtube.com/vi/S5gUED7Uq2Q/0.jpg)](https://www.youtube.com/watch?v=S5gUED7Uq2Q)
 
-The slides are available as [Pluto notebook](https://talks.widmann.dev/2021/07/ellipticalslicesampling/).
+The slides are available as [Pluto notebook](https://talks.widmann.dev/2021/07/EllipticalSliceSampling/).
 
 ## Usage
 

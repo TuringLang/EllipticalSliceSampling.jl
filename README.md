@@ -4,7 +4,7 @@ Julia implementation of elliptical slice sampling.
 
 [![Stable](https://img.shields.io/badge/docs-stable-blue.svg)](https://turinglang.github.io/EllipticalSliceSampling.jl/stable)
 [![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://turinglang.github.io/EllipticalSliceSampling.jl/dev)
-[![Build Status](https://github.com/TuringLang/EllipticalSliceSampling.jl/workflows/CI/badge.svg?branch=main)](https://github.com/TuringLang/EllipticalSliceSampling.jl/actions?query=workflow%3ACI%20branch%3Amain)
+[![CI](https://github.com/TuringLang/EllipticalSliceSampling.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/TuringLang/EllipticalSliceSampling.jl/actions/workflows/CI.yml?query=branch%3Amain)
 [![Codecov](https://codecov.io/gh/TuringLang/EllipticalSliceSampling.jl/branch/main/graph/badge.svg)](https://codecov.io/gh/TuringLang/EllipticalSliceSampling.jl)
 [![Coveralls](https://coveralls.io/repos/github/TuringLang/EllipticalSliceSampling.jl/badge.svg?branch=main)](https://coveralls.io/github/TuringLang/EllipticalSliceSampling.jl?branch=main)
 [![Code Style: Blue](https://img.shields.io/badge/code%20style-blue-4495d1.svg)](https://github.com/invenia/BlueStyle)
@@ -24,7 +24,7 @@ for more details.
 
 [![EllipticalSliceSampling.jl: MCMC with Gaussian priors](http://img.youtube.com/vi/S5gUED7Uq2Q/0.jpg)](https://www.youtube.com/watch?v=S5gUED7Uq2Q)
 
-The slides are available as [Pluto notebook](https://talks.widmann.dev/2021/07/ellipticalslicesampling/).
+The slides are available as [Pluto notebook](https://talks.widmann.dev/2021/07/EllipticalSliceSampling/).
 
 ## References
 
