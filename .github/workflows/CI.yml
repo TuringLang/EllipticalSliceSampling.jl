@@ -55,7 +55,7 @@ jobs:
       - uses: codecov/codecov-action@v7
         if: matrix.version == '1' && matrix.os == 'ubuntu-latest' && matrix.arch == 'x64'
         with:
-          file: lcov.info
+          files: lcov.info
       - uses: coverallsapp/github-action@master
         if: matrix.version == '1' && matrix.os == 'ubuntu-latest' && matrix.arch == 'x64'
         with:
